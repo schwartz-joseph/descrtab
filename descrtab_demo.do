@@ -1,7 +1,7 @@
 * Demo/test script for descrtab.ado
 * Reproduces the table from example_descriptives.do using the new command.
 
-cd "/Users/JSchwartz/Claude/Projects/Descriptives ado"
+cd "[filepath]"
 sysuse auto, clear
 
 descrtab, continuous(price mpg trunk weight length) ///
