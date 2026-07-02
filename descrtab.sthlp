@@ -1,12 +1,12 @@
 {smcl}
 {* *! version 1.1.0  2026-07-02}{...}
+{pstd}Version 1.1.0, 2026-07-02{p_end}
+
 {title:Title}
 
 {phang}
 {bf:descrtab} {hline 2} Write a descriptives table (mean/SD/min/max for
 continuous variables, %/n for categorical variables) directly to Excel.
-
-{pstd}Version 1.1.0, 2026-07-02{p_end}
 
 {title:Syntax}
 
