@@ -1,5 +1,5 @@
 {smcl}
-{* *! version 1.0.0  2026-07-01}{...}
+{* *! version 1.1.0  2026-07-02}{...}
 {title:Title}
 
 {phang}
@@ -20,6 +20,7 @@ continuous variables, %/n for categorical variables) directly to Excel.
 [{cmd:row(}{it:#}{cmd:)}]
 [{cmd:decform(}{it:string}{cmd:)}]
 [{cmd:intform(}{it:string}{cmd:)}]
+[{cmd:format(}{it:varname} {it:stat} {cmd:"}{it:numfmt}{cmd:"} {it:varname} {it:stat} {cmd:"}{it:numfmt}{cmd:"} {it:...}{cmd:)}]
 
 {p 4 4 2}
 At least one of {cmd:continuous()} / {cmd:categorical()} must be given.
@@ -78,6 +79,18 @@ Default is {cmd:.000} (percents automatically get a trailing {cmd:%}).
 
 {phang}{cmd:intform(string)} number format for min/max/n. Default is
 {cmd:0}.
+
+{phang}{cmd:format(varname stat "numfmt" ...)} overrides {cmd:decform()}/
+{cmd:intform()} for one specific cell of one specific variable, taking
+priority over the defaults. {it:stat} is one of {cmd:mean}, {cmd:sd},
+{cmd:min}, or {cmd:max} for a variable in {cmd:continuous()}, or {cmd:pct}
+or {cmd:n} for a variable in {cmd:categorical()}. {it:numfmt} can be any
+valid Excel number-format string, including custom formats such as
+{cmd:"0.???"} or fraction formats like {cmd:"# ?/?"} -- it is passed
+through to {helpb putexcel}'s {cmd:nformat()} as-is. Only the cells you
+list are overridden; every other cell still uses {cmd:decform()}/
+{cmd:intform()}. Example:
+{cmd:format(mpg mean "0.???" weight max "#,##0")}.
 
 {title:Stored results}
 

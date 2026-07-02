@@ -7,6 +7,7 @@ sysuse auto, clear
 descrtab, continuous(price mpg trunk weight length) ///
 	categorical(rep78 foreign) ///
 	labels(price "Vehicle Price" mpg "Miles per Gallon" rep78 "Repair Record 1978") ///
+	format(mpg mean "0.???" weight max "#,##0") ///
 	using(descriptive_table_test) sheet(table_1) replace
 
 * Chain a second block onto the same table

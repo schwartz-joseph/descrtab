@@ -1,10 +1,11 @@
-*! version 1.0.0  2026-07-01
+*! version 1.1.0  2026-07-02
 cap program drop descrtab
 program define descrtab, rclass
 
 	syntax [if] [in] [, Continuous(varlist numeric) CATegorical(varlist) ///
 		ORDER(varlist) USING(string) SHEET(string) REPLACE ROW(integer 2) ///
-		DECForm(string) INTForm(string) LABels(string asis) ]
+		DECForm(string) INTForm(string) LABels(string asis) ///
+		FORMat(string asis) ]
 
 	if `"`using'"' == "" {
 		di as error "using() is required -- specify the Excel filename to write to"
@@ -33,6 +34,38 @@ program define descrtab, rclass
 			di as error "`lname' in labels() must also appear in continuous() or categorical()"
 			exit 198
 		}
+	}
+
+	* parse format(varname stat "numformat" varname stat "numformat" ...)
+	* stat is one of mean/sd/min/max (continuous) or pct/n (categorical);
+	* overrides decform()/intform() for that one cell only. Any valid Excel
+	* number format string is allowed, e.g. "0.???" or "# ?/?".
+	local fmtrest `"`format'"'
+	while `"`fmtrest'"' != "" {
+		gettoken fname fmtrest : fmtrest
+		gettoken fstat fmtrest : fmtrest
+		gettoken fnum  fmtrest : fmtrest
+		local fstat = lower(`"`fstat'"')
+
+		local incontin : list fname in continuous
+		local incat : list fname in categorical
+		if !`incontin' & !`incat' {
+			di as error "`fname' in format() must also appear in continuous() or categorical()"
+			exit 198
+		}
+		if `incontin' {
+			if !inlist(`"`fstat'"', "mean", "sd", "min", "max") {
+				di as error "format() stat for `fname' must be mean, sd, min, or max (`fname' is in continuous())"
+				exit 198
+			}
+		}
+		else {
+			if !inlist(`"`fstat'"', "pct", "n") {
+				di as error "format() stat for `fname' must be pct or n (`fname' is in categorical())"
+				exit 198
+			}
+		}
+		local custfmt_`fname'_`fstat' `"`fnum'"'
 	}
 
 	foreach v of local order {
@@ -81,10 +114,19 @@ program define descrtab, rclass
 			else if `"`vlab'"' == "" local vlab "`v'"
 			matrix rownames `mn' = `"`vlab'"'
 
-			putexcel A`r' = matrix(`mn'), rownames nformat(`decform')
-			putexcel C`r' = matrix(`sd'), nformat(`decform')
-			putexcel D`r' = matrix(`mn2'), nformat(`intform')
-			putexcel E`r' = matrix(`mx'), nformat(`intform')
+			local fmt_mean `"`decform'"'
+			if `"`custfmt_`v'_mean'"' != "" local fmt_mean `"`custfmt_`v'_mean'"'
+			local fmt_sd `"`decform'"'
+			if `"`custfmt_`v'_sd'"' != "" local fmt_sd `"`custfmt_`v'_sd'"'
+			local fmt_min `"`intform'"'
+			if `"`custfmt_`v'_min'"' != "" local fmt_min `"`custfmt_`v'_min'"'
+			local fmt_max `"`intform'"'
+			if `"`custfmt_`v'_max'"' != "" local fmt_max `"`custfmt_`v'_max'"'
+
+			putexcel A`r' = matrix(`mn'), rownames nformat(`fmt_mean')
+			putexcel C`r' = matrix(`sd'), nformat(`fmt_sd')
+			putexcel D`r' = matrix(`mn2'), nformat(`fmt_min')
+			putexcel E`r' = matrix(`mx'), nformat(`fmt_max')
 
 			local ++r
 		}
@@ -104,8 +146,16 @@ program define descrtab, rclass
 			matrix `pct' = `pct'[1..`nrows',1]
 			matrix `b'   = `b'[1..`nrows',1]
 
-			putexcel A`r' = matrix(`pct'), rownames nformat(`decform'"%")
-			putexcel C`r' = matrix(`b'), nformat(`intform')
+			local fmt_n `"`intform'"'
+			if `"`custfmt_`v'_n'"' != "" local fmt_n `"`custfmt_`v'_n'"'
+
+			if `"`custfmt_`v'_pct'"' != "" {
+				putexcel A`r' = matrix(`pct'), rownames nformat(`custfmt_`v'_pct'')
+			}
+			else {
+				putexcel A`r' = matrix(`pct'), rownames nformat(`decform'"%")
+			}
+			putexcel C`r' = matrix(`b'), nformat(`fmt_n')
 
 			local r = `r' + `nrows'
 		}
