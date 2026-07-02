@@ -1,0 +1,22 @@
+v 3
+d 'DESCRTAB': module to write publication-style descriptives tables to Excel
+d
+d  descrtab automates the loop-and-matrix workflow used to build a
+d  publication-style descriptives table (mean/SD/min/max for continuous
+d  variables, %/n for categorical variables) and writes it directly to
+d  Excel via putexcel.
+d
+d KW: descriptives
+d KW: table
+d KW: excel
+d KW: putexcel
+d
+d Requires: Stata version 14
+d
+d Distribution-Date: 20260702
+d
+d Author: Joseph A. Schwartz
+d Support: email josephaschwartz01@gmail.com
+
+f descrtab.ado
+f descrtab.sthlp

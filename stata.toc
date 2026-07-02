@@ -1,0 +1,4 @@
+v 3
+d descrtab: write publication-style descriptives tables directly to Excel
+d
+p descrtab

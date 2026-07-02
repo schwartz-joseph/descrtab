@@ -9,9 +9,15 @@ with a single command.
 
 ## Installation
 
-Copy `descrtab.ado` and `descrtab.sthlp` into a folder on your Stata
-`adopath` (or just keep them in your working directory / project folder
-and `cd` there before use).
+From within Stata:
+
+```stata
+net install descrtab, from("https://raw.githubusercontent.com/schwartz-joseph/descrtab/main/") replace
+```
+
+Or manually: copy `descrtab.ado` and `descrtab.sthlp` into a folder on
+your Stata `adopath` (or just keep them in your working directory /
+project folder and `cd` there before use).
 
 ## Usage
 
@@ -32,7 +38,7 @@ descrtab, continuous(turn displacement gear_ratio) ///
 See `descrtab_demo.do` for a runnable example, and `descrtab.sthlp`
 (`help descrtab` once installed) for full syntax and options:
 `continuous()`, `categorical()`, `order()`, `labels()`, `using()`,
-`sheet()`, `replace`, `row()`, `decform()`, `intform()`.
+`sheet()`, `replace`, `row()`, `decform()`, `intform()`, `format()`.
 
 ## Author
 
