@@ -117,6 +117,16 @@ on a subsequent call to continue the table){p_end}
 {phang}{cmd:. descrtab, continuous(turn displacement gear_ratio) ///}{p_end}
 {phang2}{cmd:using(descriptive_table) sheet(table_1) row(`nr')}{p_end}
 
+{title:Citation}
+
+{pstd}If you use {cmd:descrtab} in a publication, please cite it (APA 7th
+edition format) as:{p_end}
+
+{p 8 12 2}
+Schwartz, J. A. (2026). {it:descrtab} (Version 1.1.0) [Computer software].
+GitHub. https://github.com/schwartz-joseph/descrtab
+{p_end}
+
 {title:Author}
 
 {pstd}Joseph A. Schwartz{p_end}
