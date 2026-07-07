@@ -123,7 +123,7 @@ on a subsequent call to continue the table){p_end}
 edition format) as:{p_end}
 
 {p 8 12 2}
-Schwartz, J. A. (2026). {it:descrtab} (Version 1.1.0) [Computer software].
+Schwartz, J. A. (2026). {it:descrtab} [Computer software].
 GitHub. https://github.com/schwartz-joseph/descrtab
 {p_end}
 
